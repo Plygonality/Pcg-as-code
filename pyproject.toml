@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pcg-as-code"
+version = "0.1.0"
+description = "Build, dump, and diff Unreal PCG graphs as version-controlled data."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Plygonality" }]
+keywords = ["unreal", "pcg", "procedural", "tech-art"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.6"]
+
+[project.scripts]
+pcg-as-code = "pcg_as_code.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Plygonality/Pcg-as-code"
+Unit-canon = "https://github.com/Plygonality/Unit-canon"
+gn-as-code = "https://github.com/Plygonality/gn-as-code"
+HDA-as-code = "https://github.com/Plygonality/HDA-as-code"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pcg_as_code = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
