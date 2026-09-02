@@ -1,0 +1,161 @@
+{
+  "format": "pcg-as-code",
+  "version": 1,
+  "name": "Deck Habitat Scatter",
+  "kind": "GRAPH",
+  "unreal": "5.5",
+  "asset_path": "/Game/PCG/DeckHabitatScatter",
+  "defaults": {
+    "has_default_constructed_inputs": true,
+    "params": [
+      {
+        "name": "CellSize",
+        "type": "VECTOR",
+        "default": [
+          100,
+          100,
+          100
+        ],
+        "description": "Unit-canon grid cell in Unreal units (1.0 m = 100 uu)."
+      },
+      {
+        "name": "DeckCellsX",
+        "type": "INT",
+        "default": 8,
+        "min": 1,
+        "max": 64,
+        "description": "Deck cells along X."
+      },
+      {
+        "name": "DeckCellsY",
+        "type": "INT",
+        "default": 8,
+        "min": 1,
+        "max": 64,
+        "description": "Deck cells along Y."
+      },
+      {
+        "name": "Seed",
+        "type": "INT",
+        "default": 42,
+        "description": "Deterministic scatter seed."
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "Input",
+      "type": "Input",
+      "location": [
+        0,
+        70
+      ],
+      "pins": {
+        "out": [
+          {
+            "label": "In",
+            "usage": "Any"
+          }
+        ]
+      }
+    },
+    {
+      "id": "Output",
+      "type": "Output",
+      "location": [
+        560,
+        0
+      ],
+      "pins": {
+        "in": [
+          {
+            "label": "Out",
+            "usage": "Any"
+          }
+        ]
+      }
+    },
+    {
+      "id": "grid",
+      "type": "PCGCreatePointsGridSettings",
+      "location": [
+        0,
+        -70
+      ],
+      "settings": {
+        "cell_size": {
+          "ref": "CellSize"
+        },
+        "grid_extents": [
+          800,
+          0,
+          800
+        ]
+      },
+      "pins": {
+        "out": [
+          {
+            "label": "Out",
+            "usage": "Spatial"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spawner",
+      "type": "PCGStaticMeshSpawnerSettings",
+      "location": [
+        280,
+        0
+      ],
+      "settings": {
+        "meshes": [
+          {
+            "mesh": "/Game/HabitatKit/Modules/DeckTile",
+            "weight": 3
+          },
+          {
+            "mesh": "/Game/HabitatKit/Modules/DeckGrate",
+            "weight": 1
+          }
+        ]
+      },
+      "pins": {
+        "in": [
+          {
+            "label": "In",
+            "usage": "Spatial"
+          }
+        ],
+        "out": [
+          {
+            "label": "Out",
+            "usage": "Spatial"
+          }
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": [
+        "grid",
+        "Out"
+      ],
+      "to": [
+        "spawner",
+        "In"
+      ]
+    },
+    {
+      "from": [
+        "spawner",
+        "Out"
+      ],
+      "to": [
+        "Output",
+        "Out"
+      ]
+    }
+  ]
+}
